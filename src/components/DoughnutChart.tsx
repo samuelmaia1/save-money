@@ -1,5 +1,7 @@
 'use client';
 
+import { useColors } from "@/hooks/useColors";
+
 import { ChartItem } from "@/interfaces/ChartInterfaces";
 
 import { Doughnut } from 'react-chartjs-2';
@@ -17,7 +19,6 @@ import {
     Legend,
     ChartOptions,
 } from 'chart.js';
-import { useColors } from "@/hooks/useColors";
 
 ChartJS.register(
     CategoryScale,

@@ -1,0 +1,38 @@
+.container{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 5rem;
+}
+
+.content{
+    max-width: 60%;
+
+    p {
+        font-size: 1.25rem;
+        margin-top: 1rem;
+    }
+}
+
+.strong {
+    display: inline;
+    background-color: var(--background);
+    background-image: linear-gradient(43deg, #3C7139 0%, #73D76C 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.containerChart{
+    width: 40%;
+    margin-top: 5rem;
+
+    a {
+        padding: .5rem;
+        background-color: var(--logo-color);
+        color: var(--background);
+        border-radius: 8px;
+        font-weight: 600;
+    }
+}

@@ -1,0 +1,61 @@
+.header{
+    font-family: var(--header-font);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+}
+
+.money{
+    color: var(--logo-color);
+}
+
+.containerNavbar{
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.navbar{
+    display: flex;
+    gap: 1.5rem;
+
+    a {
+        transition: color 0.3s;
+
+        &:hover {
+            color: var(--logo-color);
+        }
+    }
+}
+
+.accountNav{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    button {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.loginButton{
+    height: 50px;
+
+    width: 6rem;
+    height: 2rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background-color: var(--logo-color);
+    font-weight: 600;
+    color: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        filter: brightness(0.9);
+    }
+}
