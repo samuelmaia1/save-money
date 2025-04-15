@@ -1,17 +1,20 @@
 'use client';
 
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import Link from 'next/link';
 
 import style from './page.module.scss';
 import { InputField } from '@/components/InputField';
 import { api } from '@/services/api';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
+import { LoginContext } from '@/context/LoginContext';
 
 export default function Login() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
+
+    const {login} = useContext(LoginContext);
 
     const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value);
@@ -27,11 +30,9 @@ export default function Login() {
         setLoading(true);
         
         setTimeout(async () => {
-            const response = await api.post('/users/login', {username, password});
-            const data = response.data;
-            if (data) {
+            const isSuccess = await login({username, password});
+            if (isSuccess) 
                 setLoading(false);
-            }
         }, 3000)       
     }
 

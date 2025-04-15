@@ -6,6 +6,8 @@ import { ChartItem } from "@/interfaces/Chart";
 
 import { Doughnut } from 'react-chartjs-2';
 
+import style from '@/styles/DoughnutChart.module.scss'
+
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -71,7 +73,7 @@ export function DoughnutChart({data, label, title}: DoughnutChartProps) {
         },
     };
 
-    return <div style={{width: '450px', margin: '0'}}>
+    return <div className={style.container}>
         < Doughnut data={chartData} options={chartOptions} />
     </div>
 };

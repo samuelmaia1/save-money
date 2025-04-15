@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import style from '@/styles/Header.module.scss';
 import { LightModeButton } from "./LightModeButton";
+import { AccountButton } from "./AccountButton";
 
 export function Header() {
     
@@ -24,9 +25,7 @@ export function Header() {
                 
                 <LightModeButton />
 
-                <Link className={style.loginButton} href='/login'>
-                    Entrar
-                </Link>
+                <AccountButton />
             </div>
         </header>
     )

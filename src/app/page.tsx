@@ -1,7 +1,10 @@
+import Link from "next/link";
+
 import { DoughnutChart } from "@/components/DoughnutChart";
-import styles from "./page.module.scss";
 import { ChartItem } from "@/interfaces/Chart";
 import { ColorsContextProvider } from "@/hooks/useColors";
+
+import style from "./page.module.scss";
 
 export default function Home() {
 
@@ -25,23 +28,28 @@ export default function Home() {
 
   return (
     <ColorsContextProvider>
-      <div className={styles.container}>
-        <div className={styles.content}>
+      <div className={style.container}>
+        <div className={style.content}>
           <h1 
               style={
                   {
                       fontWeight: 400, 
-                      fontSize: '3rem',
+                      fontSize: '2.5rem',
                       display: 'inline'
                   }
               }
           >
-              Economize dinheiro com o melhor app de <span style={{fontWeight: '400'}} className={styles.strong}>gestão financeira.</span>
+              Economize dinheiro com o melhor app de <span style={{fontWeight: '400'}} className={style.strong}>gestão financeira.</span>
           </h1>
 
           <p>
               Adicione seus ganhos, gastos e receba relatórios personalizados do seu balanço financeiro.
           </p>
+
+          <div className={style.containerContentButton}>
+            <Link href='/login' className={style.contentButton}>Junte-se a nós</Link>
+            <Link href='/plans' className={style.contentButton}>Planos</Link>
+          </div>
         </div>
 
         <DoughnutChart data={outcomes} label="Gastos mensais R$" title="Gastos mensais por categoria"/>

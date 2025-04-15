@@ -63,3 +63,13 @@
         filter: brightness(0.9);
     }
 }
+
+@media (max-width: 720px) {
+    .header {
+        justify-content: flex-end;
+    }
+    
+    .containerNavbar {
+        display: none;
+    }
+}

@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { ThemeContextProvider } from "@/hooks/useTheme";
 
 import "./globals.scss";
+import { LoginContextProvider } from "@/context/LoginContext";
 
 export const metadata: Metadata = {
   title: "Save Money",
@@ -26,10 +27,12 @@ export default function RootLayout({ children } : { children: React.ReactNode })
       </head>
 
       <body>
-        <ThemeContextProvider>
-          <Header />
-          {children}
-        </ThemeContextProvider>
+        <LoginContextProvider>
+          <ThemeContextProvider>
+            <Header />
+            {children}
+          </ThemeContextProvider>
+        </LoginContextProvider>
       </body>
       
     </html>
