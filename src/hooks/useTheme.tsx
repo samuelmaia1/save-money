@@ -29,7 +29,6 @@ export function ThemeContextProvider({ children } : ThemeProviderProps) {
         setTheme((prev) => prev === 'light' ? 'dark' : 'light');
     };
     
-
     return (
         <ThemeContext.Provider value={{toggleTheme, theme}}>
             {children}

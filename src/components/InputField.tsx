@@ -16,7 +16,7 @@ interface InputFieldProps {
 
 export function InputField(props : InputFieldProps) {
 
-    const { theme }= useTheme()
+    const { theme } = useTheme()
 
     const {label, name, value, onChange, type, placeholder, required, disabled, className} = props;
 

@@ -1,15 +1,17 @@
 'use client';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import Link from 'next/link';
 
 import style from './page.module.scss';
 import { InputField } from '@/components/InputField';
+import { api } from '@/services/api';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export default function Login() {
-
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value);
@@ -18,6 +20,20 @@ export default function Login() {
     const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     };
+
+    const formSubmit = (e: FormEvent) => {
+        e.preventDefault();
+
+        setLoading(true);
+        
+        setTimeout(async () => {
+            const response = await api.post('/users/login', {username, password});
+            const data = response.data;
+            if (data) {
+                setLoading(false);
+            }
+        }, 3000)       
+    }
 
     return (
         <div className={style.container}>
@@ -32,7 +48,7 @@ export default function Login() {
                     Login
                 </h1>
 
-                <form>
+                <form onSubmit={formSubmit}>
 
                     <InputField 
                         value={username}
@@ -53,7 +69,9 @@ export default function Login() {
                     />
 
                     <div style={{display: 'flex', justifyContent: 'center', marginTop: '3rem'}}>
-                        <button type="submit" className={style.buttonSubmit}>Entrar</button>
+                        <button type="submit" className={style.buttonSubmit}>
+                            {loading ? <LoadingSpinner width='20px'/> : 'Entrar'}
+                        </button>
                     </div>
 
                 </form>

@@ -7,8 +7,6 @@ export function LightModeButton() {
 
     const { theme, toggleTheme } = useTheme();
 
-    console.log(theme);
-
     return (
         <button onClick={toggleTheme}>
             {theme === 'light' ? 
