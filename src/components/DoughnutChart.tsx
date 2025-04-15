@@ -2,7 +2,7 @@
 
 import { useColors } from "@/hooks/useColors";
 
-import { ChartItem } from "@/interfaces/ChartInterfaces";
+import { ChartItem } from "@/interfaces/Chart";
 
 import { Doughnut } from 'react-chartjs-2';
 

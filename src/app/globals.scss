@@ -2,7 +2,6 @@
   font-family: 'Montserrat', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   
   --text-color: #333;
   --background: #FFF; 
@@ -18,7 +17,7 @@
   --background: #333;
 }
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -27,6 +26,7 @@
 body{
   background-color: var(--background);
   color: var(--text-color);
+
   transition: background-color 0.5s ease-in, color 0.5s ease-in;
 }
 
@@ -47,6 +47,8 @@ a {
 button {
   background-color: var(--background);
   border-color: transparent;
+
+  transition: background-color 0.5s ease-in, color 0.5s ease-in;
 }
 
 [disabled]{

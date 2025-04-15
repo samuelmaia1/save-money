@@ -2,7 +2,7 @@
 
 import { createContext, ReactNode, useContext } from "react";
 
-interface ColorsContextProps {
+interface ColorsProviderProps {
     children: ReactNode
 };
 
@@ -12,7 +12,7 @@ interface ColorsProviderValue {
 
 const ColorsContext = createContext<ColorsProviderValue>({} as ColorsProviderValue);
 
-export function ColorsContextProvider({children}: ColorsContextProps) {
+export function ColorsContextProvider({children}: ColorsProviderProps) {
 
     const colors: string[] = [
         '#4BC0C099',

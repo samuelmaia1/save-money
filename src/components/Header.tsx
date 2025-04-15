@@ -1,32 +1,30 @@
-import Link from "next/link"
+import Link from "next/link";
 
-import style from '@/styles/Header.module.scss'
-
-import { FaRegSun } from "react-icons/fa"
+import style from '@/styles/Header.module.scss';
+import { LightModeButton } from "./LightModeButton";
 
 export function Header() {
     
     return (
         <header className={style.header}>
             <div className={style.containerNavbar}>
-                <Link href="">
+                <Link href="/">
                     Save<strong className={style.money}>Money</strong>
                 </Link>
 
                 <nav className={style.navbar}>
-                    <Link href="">Ganhos</Link>
-                    <Link href="">Despesas</Link>
-                    <Link href="">Investimentos</Link>
-                    <Link href="">Relatórios</Link>
+                    <Link href="/">Ganhos</Link>
+                    <Link href="/">Despesas</Link>
+                    <Link href="/">Investimentos</Link>
+                    <Link href="/">Relatórios</Link>
                 </nav>
             </div>
 
             <div className={style.accountNav}>
-                <button>
-                    <FaRegSun color="var(--logo-color)" style={{width: '24px', height: '24px'}}/> 
-                </button>
+                
+                <LightModeButton />
 
-                <Link className={style.loginButton} href='/'>
+                <Link className={style.loginButton} href='/login'>
                     Entrar
                 </Link>
             </div>

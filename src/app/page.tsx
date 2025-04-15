@@ -1,6 +1,6 @@
 import { DoughnutChart } from "@/components/DoughnutChart";
 import styles from "./page.module.scss";
-import { ChartItem } from "@/interfaces/ChartInterfaces";
+import { ChartItem } from "@/interfaces/Chart";
 import { ColorsContextProvider } from "@/hooks/useColors";
 
 export default function Home() {
@@ -9,7 +9,7 @@ export default function Home() {
     {
       title: 'Parcela PC',
       category: 'Cartão',
-      value: 1200
+      value: 150
     },
     {
       title: 'Conta de luz',
@@ -19,7 +19,7 @@ export default function Home() {
     {
       title: 'Roupas do bebê',
       category: 'Compras',
-      value: 500
+      value: 240
     }
   ];
 

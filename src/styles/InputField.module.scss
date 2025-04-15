@@ -1,0 +1,30 @@
+.containerInputForm {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    margin-bottom: 1rem;
+
+    label {
+        font-weight: 500;
+    }
+}
+
+.inputForm{
+    border-radius: 20px;
+    border: none;
+    border: 2px solid transparent;
+
+    height: 2rem;
+    
+    background-color: #4B4B4B;
+    color: var(--text-color);
+
+    padding: 1rem;
+
+    font-weight: 500;
+}
+
+.lightInput {
+    color: var(--text-color);
+    background-color: #c4c3c3;
+}
