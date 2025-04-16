@@ -1,7 +1,7 @@
 'use client';
 
-import { ChangeEvent, FormEvent, useContext, useState } from 'react';
-import Link from 'next/link';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { InputField } from '@/components/InputField';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
@@ -13,6 +13,8 @@ import { CreateUser } from '@/interfaces/User';
 import { api } from '@/services/api';
 
 export default function Register() {
+    const router = useRouter();
+
     const [name, setName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -46,7 +48,11 @@ export default function Register() {
         setLoading(true);
 
         try {
-            await createUser({name, lastName, cpf, email, password})
+            await createUser({name, lastName, cpf, email, password});
+            alert('Usuário criado com sucesso! Você será redirecionado para o login');
+            setTimeout(() => {
+                router.push('/login');
+            }, 1000);
         } catch (error: any) {
             console.log(error.message);
             setErrorMessage(error.message);
@@ -61,7 +67,7 @@ export default function Register() {
         });
 
         if (response.status === 201) {
-            alert('Usuário criado com sucesso! Você será redirecionado para o login');
+            
         } else {
             throw new Error(response.data);
         }
@@ -130,7 +136,7 @@ export default function Register() {
 
                     <div style={{display: 'flex', justifyContent: 'center', marginTop: '3rem'}}>
                         <button type="submit" className={style.buttonSubmit}>
-                            {loading ? <LoadingSpinner width='20px'/> : 'Entrar'}
+                            {loading ? <LoadingSpinner width='20px'/> : 'Cadastre-se'}
                         </button>
                     </div>
 

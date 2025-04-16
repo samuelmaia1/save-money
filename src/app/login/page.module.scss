@@ -62,3 +62,25 @@
     align-items: center;
     gap: .5rem;
 }
+
+@media (max-width: 800px) {
+    .container {
+        flex-direction: column-reverse;
+    }
+
+    .formContainer, .card {
+        width: 90%;
+        max-width: 60%;
+    }
+}
+
+@media (max-width: 500px) {
+    .container {
+        flex-direction: column-reverse;
+    }
+
+    .formContainer, .card {
+        width: 90%;
+        max-width: 80%;
+    }
+}
