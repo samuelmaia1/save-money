@@ -7,7 +7,7 @@ import { useState , useEffect , createContext, ReactNode } from 'react'
 interface LoginProviderValues {
     isLogged: boolean,
     logout: () => void,
-    login: (data: Login) => Promise<boolean>
+    login: (data: Login) => Promise<void>
 };
 
 interface LoginProviderProps {
@@ -18,21 +18,27 @@ export const LoginContext = createContext<LoginProviderValues>({} as LoginProvid
 
 export function LoginContextProvider({children} : LoginProviderProps) {
 
-    const [isLogged, setIsLogged] = useState<boolean>(() => {return localStorage.getItem('user') ? true : false});
+    const [isLogged, setIsLogged] = useState<boolean>(false);
+
+    useEffect(() => {
+        setIsLogged(() => localStorage.getItem('user') !== null);
+    }, [])
 
     const logout = () => {
         localStorage.removeItem('user');
         setIsLogged(false);
     };
 
-    const login = async (data: Login) : Promise<boolean> => {
-        const response = await api.post('/users/login', data);
-        setIsLogged(response.data);
+    const login = async (data: Login) : Promise<void> => {
+        const response = await api.post('/users/login', data, {
+            validateStatus: (status) => true
+        });
         if (response.data) {
             localStorage.setItem('user', JSON.stringify(data));
-            return true;
+            setIsLogged(true);
+        } else {
+            throw new Error('Login ou senha inválidos.');
         }
-        return false;
     };
 
     return (

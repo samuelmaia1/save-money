@@ -46,6 +46,14 @@ export default function Home() {
               Adicione seus ganhos, gastos e receba relatórios personalizados do seu balanço financeiro.
           </p>
 
+          <ul style={{margin: '2rem 0rem', paddingLeft: '1rem'}}>
+            <li>Gráficos de investimentos</li>
+            <li>Relatórios de gastos personalizado</li>
+            <li>Controle de finanças</li>
+            <li>Controle de vencimentos</li>
+            <li>Comparativos de entradas e saídas</li>
+        </ul>
+
           <div className={style.containerContentButton}>
             <Link href='/login' className={style.contentButton}>Junte-se a nós</Link>
             <Link href='/plans' className={style.contentButton}>Planos</Link>

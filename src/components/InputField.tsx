@@ -11,14 +11,24 @@ interface InputFieldProps {
     placeholder?: string,
     required?: boolean,
     disabled?: boolean,
-    className?: string
+    className?: string,
+    length?: number
 };
 
-export function InputField(props : InputFieldProps) {
+export function InputField({
+    label, 
+    name, 
+    value, 
+    onChange, 
+    type, 
+    placeholder, 
+    required, 
+    disabled, 
+    className,
+    length
+} : InputFieldProps) {
 
     const { theme } = useTheme()
-
-    const {label, name, value, onChange, type, placeholder, required, disabled, className} = props;
 
     return (
         <div className={style.containerInputForm}>
@@ -31,6 +41,7 @@ export function InputField(props : InputFieldProps) {
                 placeholder={placeholder}
                 required={required}
                 disabled={disabled}
+                maxLength={length}
             />
         </div>
     )

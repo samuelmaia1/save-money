@@ -5,42 +5,66 @@ import Link from 'next/link';
 
 import { InputField } from '@/components/InputField';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
-import { LoginContext } from '@/context/LoginContext';
 
 import { MdError } from 'react-icons/md';
 
 import style from './page.module.scss';
+import { CreateUser } from '@/interfaces/User';
+import { api } from '@/services/api';
 
-export default function Login() {
-    const [email, setEmail] = useState<string>('');
+export default function Register() {
+    const [name, setName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [cpf, setCpf] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const {login} = useContext(LoginContext);
-
-    const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
+    const handleName = (e: ChangeEvent<HTMLInputElement>) => {
+        setName(e.target.value);
     };
 
     const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     };
 
-    const formSubmit = (e: FormEvent) => {
-        e.preventDefault();
+    const handleLastName = (e: ChangeEvent<HTMLInputElement>) => {
+        setLastName(e.target.value);
+    };
 
+    const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
+    };
+
+    const handleCpf = (e: ChangeEvent<HTMLInputElement>) => {
+        setCpf(e.target.value);
+    };
+
+    const formSubmit = async (e: FormEvent) => {
+        e.preventDefault();
         setLoading(true);
-        
-        setTimeout(async () => {
-            try {
-                await login({email, password});
-            } catch (error: any) {
-                setErrorMessage(error.message);
-            } finally {
-                setLoading(false);
-            }
-        }, 3000)       
+
+        try {
+            await createUser({name, lastName, cpf, email, password})
+        } catch (error: any) {
+            console.log(error.message);
+            setErrorMessage(error.message);
+        } finally {
+            setLoading(false);
+        } 
+    }
+
+    const createUser = async (data: CreateUser) => {
+        const response = await api.post('/users/register', data, {
+            validateStatus: (status) => true
+        });
+
+        if (response.status === 201) {
+            alert('Usuário criado com sucesso! Você será redirecionado para o login');
+        } else {
+            throw new Error(response.data);
+        }
     }
 
     return (
@@ -53,23 +77,51 @@ export default function Login() {
                         marginBottom: '4rem'
                     }}
                 >
-                    Login
+                    Cadastre-se
                 </h1>
 
                 <form onSubmit={formSubmit}>
 
                     <InputField 
-                        value={email}
-                        label='Nome de usuário :'
-                        name='username'
-                        onChange={handleEmail}
+                        value={name}
+                        label='Nome'
+                        name='name'
+                        onChange={handleName}
                         placeholder='fulano123'
                         type='text'
                     />
 
                     <InputField 
+                        value={lastName}
+                        label='Sobrenome'
+                        name='lastName'
+                        onChange={handleLastName}
+                        placeholder='da Silva'
+                        type='text'
+                    />      
+
+                    <InputField 
+                        value={email}
+                        label='E-mail'
+                        name='email'
+                        onChange={handleEmail}
+                        placeholder='fulano@gmail.com'
+                        type='email'
+                    />
+
+                    <InputField 
+                        value={cpf}
+                        label='CPF (Apenas números)'
+                        name='cpf'
+                        onChange={handleCpf}
+                        placeholder=''
+                        type='text'
+                        length={11}
+                    />
+
+                    <InputField 
                         value={password}
-                        label='Senha :'
+                        label='Senha'
                         name='password'
                         onChange={handlePassword}
                         placeholder='*****'
@@ -80,7 +132,6 @@ export default function Login() {
                         <button type="submit" className={style.buttonSubmit}>
                             {loading ? <LoadingSpinner width='20px'/> : 'Entrar'}
                         </button>
-                        
                     </div>
 
                 </form>
@@ -135,12 +186,6 @@ function Card() {
                     >
                             Por R$ 29,99
                     </p>
-
-                    <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <Link className={style.registerButton} href='/register'>
-                            Cadastre-se
-                        </Link>
-                    </div>
 
                 </div>
 

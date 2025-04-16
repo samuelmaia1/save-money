@@ -21,6 +21,7 @@ import {
     Legend,
     ChartOptions,
 } from 'chart.js';
+import { useTheme } from "@/hooks/useTheme";
 
 ChartJS.register(
     CategoryScale,
@@ -43,6 +44,7 @@ interface DoughnutChartProps{
 export function DoughnutChart({data, label, title}: DoughnutChartProps) {
 
     const { colors } = useColors();
+    const { theme } = useTheme();
 
     const labels = data.map((item) => item.title);
     const values = data.map((item) => item.value);
@@ -65,10 +67,16 @@ export function DoughnutChart({data, label, title}: DoughnutChartProps) {
         plugins: {
             legend: {
                 position: 'bottom',
+                labels: {
+                    color: theme === 'dark' ? '#fff' : '#333' ,
+                    padding: 20
+                }
             },
             title: {
                 display: true,
                 text: title,
+                color: theme === 'dark' ? '#fff' : '#333',
+                padding: 20
             },
         },
     };

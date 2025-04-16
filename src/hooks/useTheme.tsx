@@ -15,9 +15,11 @@ const ThemeContext = createContext<ThemeContextProps>({} as ThemeContextProps);
 
 export function ThemeContextProvider({ children } : ThemeProviderProps) {
 
-    const currentTheme = localStorage.getItem('theme') || 'light';
+    const [theme, setTheme] = useState('');
 
-    const [theme, setTheme] = useState(currentTheme);
+    useEffect(() => {
+        setTheme(localStorage.getItem('theme') === 'dark' ? 'dark' : 'light');
+    }, [])
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
