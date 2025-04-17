@@ -3,6 +3,7 @@ import Link from "next/link";
 import style from '@/styles/Header.module.scss';
 import { LightModeButton } from "./LightModeButton";
 import { AccountButton } from "./AccountButton";
+import { DropDownMenu } from "./DropDownMenu";
 
 export function Header() {
     
@@ -20,6 +21,8 @@ export function Header() {
                     <Link href="/">Relatórios</Link>
                 </nav>
             </div>
+
+            <DropDownMenu />
 
             <div className={style.accountNav}>
                 

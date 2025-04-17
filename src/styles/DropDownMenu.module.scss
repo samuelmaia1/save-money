@@ -1,0 +1,27 @@
+.container {
+    display: none;
+    position: relative;
+
+    background-color: var(--background);
+
+    padding-bottom: .5rem;
+
+    z-index: 1;
+}
+
+.money{
+    color: var(--logo-color);
+}
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: -1rem;
+}
+
+@media (max-width: 720px) {
+    .container {
+        display: block;
+    }
+}
