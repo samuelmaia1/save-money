@@ -12,7 +12,8 @@ interface InputFieldProps {
     required?: boolean,
     disabled?: boolean,
     className?: string,
-    length?: number
+    length?: number,
+    checked?: boolean
 };
 
 export function InputField({
@@ -25,7 +26,8 @@ export function InputField({
     required, 
     disabled, 
     className,
-    length
+    length,
+    checked
 } : InputFieldProps) {
 
     const { theme } = useTheme()
@@ -42,6 +44,7 @@ export function InputField({
                 required={required}
                 disabled={disabled}
                 maxLength={length}
+                checked={checked}
             />
         </div>
     )

@@ -7,6 +7,7 @@ import { InputField } from '@/components/InputField';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 import { MdError } from 'react-icons/md';
+import { IoMdDownload } from "react-icons/io";
 
 import style from './page.module.scss';
 import { CreateUser } from '@/interfaces/User';
@@ -18,9 +19,9 @@ export default function Register() {
     const [name, setName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [cpf, setCpf] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
+    const [usageTerms, setUsageTerms] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,8 +40,8 @@ export default function Register() {
         setEmail(e.target.value);
     };
 
-    const handleCpf = (e: ChangeEvent<HTMLInputElement>) => {
-        setCpf(e.target.value);
+    const handleUsageTerms = (e: ChangeEvent<HTMLInputElement>) => {
+        setUsageTerms(e.target.checked);
     };
 
     const formSubmit = async (e: FormEvent) => {
@@ -48,7 +49,7 @@ export default function Register() {
         setLoading(true);
 
         try {
-            await createUser({name, lastName, cpf, email, password});
+            await createUser({name, lastName, email, password});
             alert('Usuário criado com sucesso! Você será redirecionado para o login');
             setTimeout(() => {
                 router.push('/login');
@@ -93,7 +94,6 @@ export default function Register() {
                         label='Nome'
                         name='name'
                         onChange={handleName}
-                        placeholder='fulano123'
                         type='text'
                     />
 
@@ -102,7 +102,6 @@ export default function Register() {
                         label='Sobrenome'
                         name='lastName'
                         onChange={handleLastName}
-                        placeholder='da Silva'
                         type='text'
                     />      
 
@@ -111,18 +110,7 @@ export default function Register() {
                         label='E-mail'
                         name='email'
                         onChange={handleEmail}
-                        placeholder='fulano@gmail.com'
                         type='email'
-                    />
-
-                    <InputField 
-                        value={cpf}
-                        label='CPF (Apenas números)'
-                        name='cpf'
-                        onChange={handleCpf}
-                        placeholder=''
-                        type='text'
-                        length={11}
                     />
 
                     <InputField 
@@ -130,11 +118,19 @@ export default function Register() {
                         label='Senha'
                         name='password'
                         onChange={handlePassword}
-                        placeholder='*****'
                         type='password'
                     />
 
-                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '3rem'}}>
+                    
+                    
+                    <div style={{display: 'flex', gap: '.5rem', alignItems: 'center'}}>
+                        <input type="checkbox" checked={usageTerms} onChange={handleUsageTerms}name="usageTerms" />
+                        <a href='/Termos_de_Uso_Gestao_Financeira.pdf'  download className={style.usageTermButton}>
+                            Aceito os termos de uso <IoMdDownload size={18}/>
+                        </a>
+                    </div>
+
+                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '1rem'}}>
                         <button type="submit" className={style.buttonSubmit}>
                             {loading ? <LoadingSpinner width='20px'/> : 'Cadastre-se'}
                         </button>

@@ -1,9 +1,10 @@
 import Link from "next/link";
 
-import style from '@/styles/Header.module.scss';
 import { LightModeButton } from "./LightModeButton";
 import { AccountButton } from "./AccountButton";
 import { DropDownMenu } from "./DropDownMenu";
+
+import style from '@/styles/Header.module.scss';
 
 export function Header() {
     

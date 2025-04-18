@@ -63,6 +63,18 @@
     gap: .5rem;
 }
 
+.usageTermButton {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+
+    transition: color 0.3s linear;
+
+    &:hover {
+        color: var(--logo-color);
+    }
+}
+
 @media (max-width: 800px) {
     .container {
         flex-direction: column-reverse;
