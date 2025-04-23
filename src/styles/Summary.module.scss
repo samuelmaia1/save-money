@@ -42,3 +42,10 @@
 .totalShape {
     background-color: #4D48ED;
 }
+
+@media (max-width: 850px) {
+    .container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+}
