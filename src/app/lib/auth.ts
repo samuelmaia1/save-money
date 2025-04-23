@@ -19,44 +19,42 @@ export async function login({ email, password } : Login) {
         throw new Error("Senha inválida")
     } else if (response.status === 404) {
         throw new Error("Usuário com este e-mail já cadastrado");
+    } else if (response.status >= 500) {
+        throw new Error("Erro interno do servidor. Por favor, tente mais tarde.")
     }
 
     const { user, token }: LoginResponse = response.data;
     const cookieStore = await cookies();
 
-    cookieStore.set('user', JSON.stringify(user), {
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 60 * 60 * 24 * 7,
-        path: '/',
-    });
-
     cookieStore.set('token', token, { 
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        maxAge: 60 * 60 * 24 * 7, // 1 semana
+        maxAge: 60 * 60 * 24 * 7,
         path: '/',
     });
 
     return user;
 };
 
+export async function getCurrentUser() {
+    const token = await getToken();
+
+    const response = await api.get('/auth/user', {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    const userResponse: User = response.data;
+
+    return userResponse;
+}
+
 export async function logout() {
     const cookieStore = await cookies();
-    cookieStore.delete('user');
     cookieStore.delete('token');
-    redirect('/login');
 };
 
-export async function getSession(): Promise<User | null> {
-    const userCookie = (await cookies()).get('user')?.value;
-
-    if (userCookie){
-        const user = JSON.parse(userCookie);
-        return user;
-    }
-
-    return null;
-};
 
 export async function getToken() {
     return (await cookies()).get('token')?.value;

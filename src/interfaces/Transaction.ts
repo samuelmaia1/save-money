@@ -6,5 +6,6 @@ export interface Transaction {
     source?: string,
     receiver?: string,
     category: string,
-    value: number
+    value: number,
+    title: string
 }

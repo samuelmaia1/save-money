@@ -2,9 +2,10 @@
 
 import { createContext, ReactNode, useEffect, useState } from "react";
 
-import { getSession, logout as serverLogout, login as serverLogin } from "@/app/lib/auth";
+import { logout as serverLogout, login as serverLogin, getToken, getCurrentUser } from "@/app/lib/auth";
 import { User } from "@/interfaces/User";
 import { Login } from "@/interfaces/Login";
+import { useRouter } from "next/navigation";
 
 interface UserProviderValues {
     user: User | null,
@@ -19,14 +20,17 @@ interface UserProviderProps {
 export const UserContext = createContext<UserProviderValues>({} as UserProviderValues);
 
 export function UserContextProvider({children} : UserProviderProps) {
+    const router = useRouter();
 
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
 
         async function loadSession() {
-            const user = await getSession(); 
-            setUser(user);
+
+            const userResponse = await getCurrentUser();
+
+            setUser(userResponse);
         };
 
         loadSession();
@@ -36,6 +40,7 @@ export function UserContextProvider({children} : UserProviderProps) {
     async function logout(): Promise<void> {
         setUser(null);
         await serverLogout();
+        router.push('/login')
     }
 
     async function login({email, password}: Login): Promise<void> {
