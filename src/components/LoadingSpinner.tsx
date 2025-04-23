@@ -1,16 +1,18 @@
-import style from '@/styles/Spinner.module.scss'
+import style from '@/styles/Spinner.module.scss';
 
 interface LoadingSpinnerProps {
-    width: string
-}
+    width: string,
+    color?: string
+};
 
-export function LoadingSpinner({width} : LoadingSpinnerProps) {
+export function LoadingSpinner({width, color} : LoadingSpinnerProps) {
     return (
         <div 
             className={style.container}
             style={{
                 width,
-                height: width
+                height: width,
+                color: color
             }}
         >
 

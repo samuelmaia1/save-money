@@ -1,77 +1,50 @@
 'use client';
 
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
+import { UserContext } from '@/context/UserContext';
 
 import { InputField } from '@/components/InputField';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 import { MdError } from 'react-icons/md';
-import { IoMdDownload } from "react-icons/io";
 
 import style from './page.module.scss';
-import { CreateUser } from '@/interfaces/User';
-import { api } from '@/services/api';
 
-export default function Register() {
+export default function Login() {
+
     const router = useRouter();
 
-    const [name, setName] = useState<string>('');
-    const [lastName, setLastName] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const { login } = useContext(UserContext);
+
     const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
-    const [usageTerms, setUsageTerms] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const handleName = (e: ChangeEvent<HTMLInputElement>) => {
-        setName(e.target.value);
+    const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
     };
 
     const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     };
 
-    const handleLastName = (e: ChangeEvent<HTMLInputElement>) => {
-        setLastName(e.target.value);
-    };
-
-    const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
-    };
-
-    const handleUsageTerms = (e: ChangeEvent<HTMLInputElement>) => {
-        setUsageTerms(e.target.checked);
-    };
-
     const formSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        setLoading(true);
 
+        setLoading(true);
+        
         try {
-            await createUser({name, lastName, email, password});
-            alert('Usuário criado com sucesso! Você será redirecionado para o login');
-            setTimeout(() => {
-                router.push('/login');
-            }, 1000);
+            await login({email, password});
+            router.push('/home');
         } catch (error: any) {
-            console.log(error.message);
             setErrorMessage(error.message);
         } finally {
             setLoading(false);
-        } 
-    }
-
-    const createUser = async (data: CreateUser) => {
-        const response = await api.post('/users/register', data, {
-            validateStatus: (status) => true
-        });
-
-        if (response.status === 201) {
-            
-        } else {
-            throw new Error(response.data);
-        }
+        }      
     }
 
     return (
@@ -84,59 +57,40 @@ export default function Register() {
                         marginBottom: '4rem'
                     }}
                 >
-                    Cadastre-se
+                    Login
                 </h1>
 
                 <form onSubmit={formSubmit}>
 
                     <InputField 
-                        value={name}
-                        label='Nome'
-                        name='name'
-                        onChange={handleName}
-                        type='text'
-                    />
-
-                    <InputField 
-                        value={lastName}
-                        label='Sobrenome'
-                        name='lastName'
-                        onChange={handleLastName}
-                        type='text'
-                    />      
-
-                    <InputField 
                         value={email}
-                        label='E-mail'
-                        name='email'
+                        label='Nome de usuário :'
+                        name='username'
                         onChange={handleEmail}
-                        type='email'
+                        placeholder='fulano123'
+                        type='text'
                     />
 
                     <InputField 
                         value={password}
-                        label='Senha'
+                        label='Senha :'
                         name='password'
                         onChange={handlePassword}
+                        placeholder='*****'
                         type='password'
                     />
 
-                    
-                    
-                    <div style={{display: 'flex', gap: '.5rem', alignItems: 'center'}}>
-                        <input type="checkbox" checked={usageTerms} onChange={handleUsageTerms}name="usageTerms" />
-                        <a href='/Termos_de_Uso_Gestao_Financeira.pdf'  download className={style.usageTermButton}>
-                            Aceito os termos de uso <IoMdDownload size={18}/>
-                        </a>
-                    </div>
-
-                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '1rem'}}>
+                    <div style={{display: 'flex', justifyContent: 'center', marginTop: '3rem'}}>
                         <button type="submit" className={style.buttonSubmit}>
-                            {loading ? <LoadingSpinner width='20px'/> : 'Cadastre-se'}
+                            {loading ? <LoadingSpinner width='20px'/> : 'Entrar'}
                         </button>
                     </div>
 
                 </form>
+
+                <p style={{marginTop: '1rem'}}>
+                    Ainda não possui conta? <Link href='/register'>Cadastre-se</Link>
+                </p>
 
                 {errorMessage && <p className={style.errorMessage}> <MdError /> {errorMessage}</p>}
             </div>
@@ -188,6 +142,12 @@ function Card() {
                     >
                             Por R$ 29,99
                     </p>
+
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <Link className={style.registerButton} href='/register'>
+                            Cadastre-se
+                        </Link>
+                    </div>
 
                 </div>
 

@@ -10,8 +10,8 @@ export function LightModeButton() {
     return (
         <button onClick={toggleTheme}>
             {theme === 'light' ? 
-                <FaRegSun color="var(--logo-color)" style={{width: '24px', height: '24px'}}/> : 
-                <FaCloudMoon color="var(--logo-color)" style={{width: '24px', height: '24px'}}/> 
+                <FaRegSun color="var(--logo-color)" size={24}/> : 
+                <FaCloudMoon color="var(--logo-color)" size={24}/> 
             }
         </button>
     )

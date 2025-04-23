@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 
 import { Header } from "@/components/Header";
 import { ThemeContextProvider } from "@/hooks/useTheme";
+import { UserContextProvider } from "@/context/UserContext";
 
 import "./globals.scss";
-import { LoginContextProvider } from "@/context/LoginContext";
 
 export const metadata: Metadata = {
   title: "Save Money",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children } : { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-br">
 
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,12 +27,12 @@ export default function RootLayout({ children } : { children: React.ReactNode })
       </head>
 
       <body>
-        <LoginContextProvider>
-          <ThemeContextProvider>
-            <Header />
-            {children}
-          </ThemeContextProvider>
-        </LoginContextProvider>
+          <UserContextProvider>
+            <ThemeContextProvider>
+              <Header />
+              {children}
+            </ThemeContextProvider>
+          </UserContextProvider>
       </body>
       
     </html>

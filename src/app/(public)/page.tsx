@@ -6,7 +6,7 @@ import { ColorsContextProvider } from "@/hooks/useColors";
 
 import style from "./page.module.scss";
 
-export default function Home() {
+export default async function Home() {
 
   const outcomes: ChartItem[] = [
     {
@@ -25,6 +25,8 @@ export default function Home() {
       value: 240
     }
   ];
+
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
   return (
     <ColorsContextProvider>
@@ -55,7 +57,7 @@ export default function Home() {
         </ul>
 
           <div className={style.containerContentButton}>
-            <Link href='/login' className={style.contentButton}>Junte-se a nós</Link>
+            <Link href='/register' className={style.contentButton}>Junte-se a nós</Link>
             <Link href='/plans' className={style.contentButton}>Planos</Link>
           </div>
         </div>
