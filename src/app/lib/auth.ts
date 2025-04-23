@@ -39,15 +39,20 @@ export async function login({ email, password } : Login) {
 export async function getCurrentUser() {
     const token = await getToken();
 
-    const response = await api.get('/auth/user', {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
-
-    const userResponse: User = response.data;
-
-    return userResponse;
+    try {
+        const response = await api.get('/auth/user', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+    
+        const userResponse: User = response.data;
+    
+        return userResponse;
+    } catch (error) {
+        await logout();
+        redirect('/');
+    }    
 }
 
 export async function logout() {
