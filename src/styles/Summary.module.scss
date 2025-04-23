@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+
+    margin-top: 2rem;
+}
+
+.shape {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 350px;
+    height: 150px;
+
+    border-radius: 12px;
+
+    color: #000;
+
+    padding: 1.5rem;
+
+    h2 {
+        font-weight: 500;
+        font-size: 1.25rem;
+    }
+
+    p {
+        font-size: 1.5rem;
+    }
+}
+
+.incomeShape {
+    background-color: #6DD868;
+}
+
+.outcomeShape {
+    background-color: #E52E4D;
+}
+
+.totalShape {
+    background-color: #4D48ED;
+}

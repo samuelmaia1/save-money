@@ -1,3 +1,5 @@
+import { Transaction } from "./Transaction";
+
 export interface CreateUser {
     name: string,
     lastName: string,
@@ -10,4 +12,5 @@ export interface User {
     name: string,
     lastName: string,
     email: string,
+    transactions: Transaction[]
 }
