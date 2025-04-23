@@ -3,7 +3,6 @@ export interface CreateUser {
     lastName: string,
     email: string,
     password: string,
-    id: String
 }
 
 export interface User {
