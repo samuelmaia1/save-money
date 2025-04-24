@@ -2,7 +2,7 @@
 
 import { createContext, ReactNode, useEffect, useState } from "react";
 
-import { logout as serverLogout, login as serverLogin, getToken, getCurrentUser } from "@/app/lib/auth";
+import { logout as serverLogout, login as serverLogin, getCurrentUser } from "@/app/lib/auth";
 import { User } from "@/interfaces/User";
 import { Login } from "@/interfaces/Login";
 import { useRouter } from "next/navigation";
@@ -48,7 +48,7 @@ export function UserContextProvider({children} : UserProviderProps) {
             const userLogin = await serverLogin({email, password});
             setUser(userLogin);
         } catch (error) {
-            throw error;1
+            throw error;
         }
     }
 

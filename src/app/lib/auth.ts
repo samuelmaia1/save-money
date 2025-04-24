@@ -3,6 +3,7 @@
 import { Login } from "@/interfaces/Login";
 import { User } from "@/interfaces/User";
 import { api } from "@/services/api";
+import { Axios, AxiosError } from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -13,15 +14,17 @@ interface LoginResponse {
 };
 
 export async function login({ email, password } : Login) {
-    const response = await api.post('/auth/login', {email, password});
-
+    const response = await api.post('/auth/login', {email, password}, {
+        validateStatus: () => true
+    });
+    
     if (response.status === 401) {
         throw new Error("Senha inválida")
     } else if (response.status === 404) {
-        throw new Error("Usuário com este e-mail já cadastrado");
+        throw new Error("Usuário com este e-mail não existe");
     } else if (response.status >= 500) {
         throw new Error("Erro interno do servidor. Por favor, tente mais tarde.")
-    }
+    };
 
     const { user, token }: LoginResponse = response.data;
     const cookieStore = await cookies();
@@ -39,6 +42,8 @@ export async function login({ email, password } : Login) {
 export async function getCurrentUser() {
     const token = await getToken();
 
+    if (!token) return null;
+
     try {
         const response = await api.get('/auth/user', {
             headers: {
@@ -46,13 +51,16 @@ export async function getCurrentUser() {
             }
         });
     
-        const userResponse: User = response.data;
-    
-        return userResponse;
+        return response.data as User;
     } catch (error) {
-        await logout();
-        redirect('/');
-    }    
+
+        const responseError = error as AxiosError;
+
+        if (responseError.response?.status === 401) {
+            await logout();
+        }
+        return null;
+    };
 }
 
 export async function logout() {
