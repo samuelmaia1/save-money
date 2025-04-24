@@ -15,7 +15,6 @@ interface TransactionsTableProps {
 export function TransactionsTable({transactions} : TransactionsTableProps) {
 
     const { theme } = useTheme();
-    console.log(theme);
 
     return (
         <table className={style.table}>

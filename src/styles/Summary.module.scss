@@ -49,3 +49,9 @@
         gap: 2rem;
     }
 }
+
+@media (max-width: 481px) {
+    .shape {
+        width: 90vw;
+    }
+}

@@ -67,15 +67,12 @@ export default function Register() {
     }
 
     const createUser = async (data: CreateUser) => {
-        const response = await api.post('/users/register', data, {
+        const response = await api.post('/user/create', data, {
             validateStatus: (status) => true
         });
 
-        if (response.status === 201) {
-            
-        } else {
-            throw new Error(response.data);
-        }
+        if (response.status !== 201)
+            throw new Error(response.data.message);
     }
 
     return (
