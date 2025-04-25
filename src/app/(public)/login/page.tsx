@@ -39,6 +39,8 @@ export default function Login() {
         
         try {
             await login({email, password});
+            setEmail('');
+            setPassword('');
             router.push('/home');
         } catch (error: any) {
             setErrorMessage(error.message);
