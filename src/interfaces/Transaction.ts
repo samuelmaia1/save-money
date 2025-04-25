@@ -1,11 +1,11 @@
 export interface Transaction {
-    id: string,
+    id?: string,
     type: string,
-    date: Date,
-    isCurrent: boolean,
+    date: string,
     source?: string,
     receiver?: string,
     category: string,
     value: number,
-    title: string
+    title: string,
+    description: string
 }

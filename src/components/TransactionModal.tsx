@@ -1,29 +1,36 @@
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import ReactModal from "react-modal";
 
-
 import { InputField } from "./InputField";
 
 import { IoMdClose } from "react-icons/io";
 import { FaArrowAltCircleDown, FaArrowAltCircleUp } from "react-icons/fa";
+import { MdError } from "react-icons/md";
 
 import style from '@/styles/Modal.module.scss';
 import { UserContext } from "@/context/UserContext";
+import { Transaction } from "@/interfaces/Transaction";
+import { api } from "@/services/api";
 
 interface TransactionModalProps {
     isOpen: boolean,
-    onRequestClose: () => void
+    onRequestClose: () => void,
+    addTransaction: (transaction: Transaction) => void
 }
 
-export function TransactionModal({isOpen, onRequestClose} : TransactionModalProps) {
+export function TransactionModal({isOpen, onRequestClose, addTransaction} : TransactionModalProps) {
 
     const { user } = useContext(UserContext);
+    const userId = user?.id;
 
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [type, setType] = useState<string>('income');
     const [value, setValue] = useState<number>(0);
     const [category, setCategory] = useState<string>('');
+    const [source, setSource] = useState<string>('');
+    const [receiver, setReceiver] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState<string>('');
 
     const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
@@ -41,8 +48,51 @@ export function TransactionModal({isOpen, onRequestClose} : TransactionModalProp
         setValue(Number(e.target.value));
     }
 
+    const handleSource = (e: ChangeEvent<HTMLInputElement>) => {
+        setSource(e.target.value);
+    }
+
+    const handleReceiver = (e: ChangeEvent<HTMLInputElement>) => {
+        setReceiver(e.target.value);
+    }
+
     const formSubmit = async (e: FormEvent) => {
-        
+        e.preventDefault();
+
+        const newTransaction: Transaction = {
+            title, 
+            type, 
+            category, 
+            value, 
+            description, 
+            date: new Date().toLocaleDateString(),
+            source,
+            receiver
+        };
+
+        console.log(newTransaction);
+
+        try {
+            const response = await api.post(`/transaction/${userId}`, newTransaction, {
+                validateStatus: (status) => true
+            });
+
+            if (response.status === 400)
+                throw new Error(response.data.message);
+
+            if (response.status === 201)
+                addTransaction(newTransaction);
+
+            setValue(0);
+            setCategory('');
+            setDescription('');
+            setReceiver('');
+            setSource('');
+            setTitle('');
+            setType('');
+        } catch (error: any) {
+            setErrorMessage(error.message);
+        }
     }
 
     return (
@@ -63,7 +113,7 @@ export function TransactionModal({isOpen, onRequestClose} : TransactionModalProp
             <div className={style.container}>
                 <h2>Cadastrar nova transação</h2>
 
-                <form>
+                <form onSubmit={formSubmit}>
                     <InputField 
                         name="title"
                         label="Título"
@@ -121,9 +171,34 @@ export function TransactionModal({isOpen, onRequestClose} : TransactionModalProp
                             <span>Saída</span>
                         </button>
                     </div>
+
+                    {
+                        type == 'income' ? 
+                        <InputField 
+                            name="source"
+                            label="Fonte"
+                            placeholder="Freelancer para cliente"
+                            type="text"
+                            onChange={handleSource}
+                            value={source}
+                        /> :
+                        <InputField 
+                            name="receiver"
+                            label="Destino"
+                            placeholder="Padaria"
+                            type="text"
+                            onChange={handleReceiver}
+                            value={receiver}
+                        /> 
+                    }
                     
                     <SelectCategory type={type} category={category} handleChange={handleCategory}/>
 
+                    <div className={style.buttonSubmitContainer}>
+                        <button type="submit" className={style.buttonSubmit}>Criar transação</button>
+                    </div>
+
+                    {errorMessage && <p className={style.errorMessage}> <MdError /> {errorMessage}</p>}
                 </form>
             </div>
         </ReactModal>
@@ -150,10 +225,11 @@ function SelectCategory({type, category, handleChange}: SelectCategoryProps) {
                 :
                 <select id="category" value={category} onChange={handleChange} className={style.selectCategory}>
                     <option value="">Selecione</option>
-                    <option value="Mercado e Padaria">Despesas</option>
+                    <option value="Mercado e Padaria">Mercado e padaria</option>
                     <option value="Compras">Compras</option>
                     <option value="Lazer">Lazer</option>
                     <option value="Despesas">Despesas</option>
+                    <option value="Gastos pontuais">Gastos pontuais</option>
                 </select>
             }
         </div>

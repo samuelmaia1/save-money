@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { Summary } from '@/components/Summary';
 import { TransactionsTable } from './TransactionsTable';
@@ -14,8 +14,17 @@ import { Transaction } from '@/interfaces/Transaction';
 export function Dashboard() {
 
     const { user } = useContext(UserContext);
+    console.log(user);
 
-    const [transactions, setTransactions] = useState<Transaction[] | undefined>(user?.transactions);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+    useEffect(() => {
+        if (user)
+            setTransactions(user.transactions);
+    }, [user])
+
+    const addTransaction = (transaction: Transaction) => {setTransactions((prev) => {return [...transactions, transaction]})};
+
     const [isOpen, setIsopen] = useState<boolean>(false);
 
     const handleCloseModal = () => setIsopen(false);
@@ -35,7 +44,7 @@ export function Dashboard() {
 
             < Summary transactions={transactions || []}/>
             < TransactionsTable transactions={transactions || []}/>
-            < TransactionModal isOpen={isOpen} onRequestClose={handleCloseModal}/>
+            < TransactionModal isOpen={isOpen} onRequestClose={handleCloseModal} addTransaction={addTransaction}/>
         </div>
     );
 }

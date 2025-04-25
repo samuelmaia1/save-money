@@ -29,7 +29,7 @@ export function UserContextProvider({children} : UserProviderProps) {
         async function loadSession() {
 
             const userResponse = await getCurrentUser();
-
+            
             setUser(userResponse);
         };
 

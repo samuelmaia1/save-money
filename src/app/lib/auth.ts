@@ -3,9 +3,8 @@
 import { Login } from "@/interfaces/Login";
 import { User } from "@/interfaces/User";
 import { api } from "@/services/api";
-import { Axios, AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 interface LoginResponse {
     success: boolean,
@@ -15,15 +14,15 @@ interface LoginResponse {
 
 export async function login({ email, password } : Login) {
     const response = await api.post('/auth/login', {email, password}, {
-        validateStatus: () => true
+        validateStatus: (status) => true
     });
     
     if (response.status === 401) {
-        throw new Error("Senha inválida")
+        throw new Error("Senha inválida");
     } else if (response.status === 404) {
         throw new Error("Usuário com este e-mail não existe");
     } else if (response.status >= 500) {
-        throw new Error("Erro interno do servidor. Por favor, tente mais tarde.")
+        throw new Error("Erro interno do servidor. Por favor, tente mais tarde.");
     };
 
     const { user, token }: LoginResponse = response.data;

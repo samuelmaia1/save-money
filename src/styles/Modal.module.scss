@@ -85,6 +85,34 @@
     height: 3rem;
 }
 
+.buttonSubmitContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.buttonSubmit{
+    width: 100%;
+    margin-top: 1rem;
+
+    background-color: var(--logo-color);
+    color: #333;
+
+    font-weight: 600;
+
+    padding: 1rem;
+
+    border: none;
+    border-radius: 8px;
+
+    height: 3rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
 @media (max-width: 500px) {
     .reactModalContent {
         width: 90%;

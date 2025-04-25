@@ -47,7 +47,7 @@ function TableRow({transaction}: TableRowProps) {
     return (
         <>
             <tr>
-                <td style={{display: 'flex', gap: '1rem'}}>
+                <td style={{display: 'flex', gap: '1rem', alignItems: 'center'}}>
                     {transaction.type == 'income' ? < FaArrowAltCircleUp color="#6DD868" /> : < FaArrowAltCircleDown color="#E52E4D"/> }
                     {transaction.title}
                 </td>
