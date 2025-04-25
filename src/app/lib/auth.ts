@@ -1,5 +1,6 @@
 'use server';
 
+import { cache } from "react";
 import { Login } from "@/interfaces/Login";
 import { User } from "@/interfaces/User";
 import { api } from "@/services/api";
@@ -38,9 +39,7 @@ export async function login({ email, password } : Login) {
     return user;
 };
 
-export async function getCurrentUser() {
-    const token = await getToken();
-
+const getCachedUser = cache(async (token: string | undefined) => {
     if (!token) return null;
 
     try {
@@ -60,6 +59,12 @@ export async function getCurrentUser() {
         }
         return null;
     };
+})
+
+export async function getCurrentUser() {
+    const token = await getToken();
+
+    return getCachedUser(token);
 }
 
 export async function logout() {
@@ -67,7 +72,10 @@ export async function logout() {
     cookieStore.delete('token');
 };
 
+const getCachedToken = cache(async () => {
+    return (await cookies()).get('token')?.value;
+})
 
 export async function getToken() {
-    return (await cookies()).get('token')?.value;
+    return getCachedToken();
 };
