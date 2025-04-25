@@ -14,7 +14,6 @@ import { Transaction } from '@/interfaces/Transaction';
 export function Dashboard() {
 
     const { user } = useContext(UserContext);
-    console.log(user);
 
     const [transactions, setTransactions] = useState<Transaction[]>([]);
 

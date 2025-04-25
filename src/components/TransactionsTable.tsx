@@ -55,7 +55,7 @@ function TableRow({transaction}: TableRowProps) {
                     R$ {formatNumber(transaction.value)}
                 </td>
                 <td>{transaction.category}</td>
-                <td>{transaction.date.toString()}</td>
+                <td>{transaction.date}</td>
             </tr>
         </>
     )
